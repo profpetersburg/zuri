@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: zuri
+    runtime: node
+    plan: free
+    buildCommand: echo "no build"
+    startCommand: node server.js
+    healthCheckPath: /api/config
+    envVars:
+      - key: MODE
+        value: sandbox
+      - key: JWT_SECRET
+        generateValue: true

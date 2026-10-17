@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zuri – Send money to Africa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F1F8;--surf:#fff;--ink:#1D1537;--mute:#6B6585;--brand:#3D2B8F;--pop:#FFC83D;--ok:#16A34A;--line:#E3DFEE;--err:#C2262E;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14102A;--surf:#1F1A3D;--ink:#F2EFFA;--mute:#A49DC4;--brand:#6C58E8;--line:#322B5C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14102A;--surf:#1F1A3D;--ink:#F2EFFA;--mute:#A49DC4;--brand:#6C58E8;--line:#322B5C;color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 'DM Sans',system-ui,sans-serif;display:flex;justify-content:center}
+#app{width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;background:var(--bg)}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 6px}
+.logo{font:800 22px 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em;color:var(--brand)}
+.logo i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--pop);margin-left:3px}
+.back{background:none;border:0;color:var(--brand);font:700 15px 'DM Sans',sans-serif;padding:8px 0;cursor:pointer}
+main{flex:1;overflow-y:auto;padding:8px 20px 20px}
+h1{font:800 30px/1.1 'Bricolage Grotesque',system-ui,sans-serif;letter-spacing:-.02em;margin:10px 0 18px}
+h2{font:600 19px 'Bricolage Grotesque',system-ui,sans-serif;margin:0 0 10px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.hero{background:var(--brand);color:#fff;border-color:transparent}
+label,.lbl{display:block;font-size:13px;color:var(--mute);margin-bottom:6px}
+.hero .lbl{color:#CFC7F5}
+.row{display:flex;align-items:center;gap:10px}
+input,select{font:inherit;color:inherit}
+#amt{flex:1;min-width:0;border:0;background:none;font:800 34px 'Bricolage Grotesque',system-ui,sans-serif;outline:none;padding:0}
+select{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 8px;font-weight:700;max-width:46%}
+.hero select{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);color:#fff}
+.hero select option{color:#1D1537}
+.out{flex:1;font:800 34px 'Bricolage Grotesque',system-ui,sans-serif;color:var(--pop);overflow-wrap:anywhere}
+.brk div{display:flex;justify-content:space-between;padding:5px 0;font-size:15px}
+.brk span:first-child{color:var(--mute)}
+.brk .tot{border-top:1px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700}
+.tag{display:inline-block;background:var(--pop);color:#1D1537;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:700}
+.btn{width:100%;border:0;border-radius:16px;background:var(--brand);color:#fff;font:700 17px 'DM Sans',sans-serif;padding:16px;cursor:pointer;margin-top:6px}
+.btn.alt{background:var(--surf);color:var(--brand);border:1px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--pop);outline-offset:2px}
+.rec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surf);border:2px solid var(--line);color:var(--ink);border-radius:16px;padding:12px 14px;margin-bottom:10px;cursor:pointer;font:inherit}
+.rec.sel{border-color:var(--brand)}
+.av{width:42px;height:42px;border-radius:50%;background:var(--pop);color:#1D1537;display:grid;place-items:center;font-weight:800;flex:none}
+.rec small,.tx small{display:block;color:var(--mute);font-size:13px}
+.f input,.f select{width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:12px;margin-bottom:10px;max-width:none}
+.seg{display:flex;gap:8px;margin-bottom:10px}
+.seg button{flex:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:10px;font:700 14px 'DM Sans',sans-serif;cursor:pointer}
+.seg button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tx{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.tx:last-child{border:0}
+.st{font-size:12px;font-weight:700;color:var(--ok)}
+.st.p{color:var(--mute)}
+.empty{text-align:center;color:var(--mute);padding:30px 10px}
+.tl{list-style:none;padding:0;margin:14px 0}
+.tl li{display:flex;gap:12px;align-items:center;padding:9px 0;color:var(--mute)}
+.tl li b{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;flex:none}
+.tl li.on{color:var(--ink);font-weight:700}
+.tl li.on b{background:var(--ok);border-color:var(--ok);color:#fff}
+.big-ok{width:64px;height:64px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:32px;margin:6px auto 12px}
+.sb{border:0;border-radius:12px;background:var(--brand);color:#fff;font:700 14px 'DM Sans',sans-serif;padding:11px 14px;cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 14px}.chip{border:1px solid var(--line);background:var(--surf);color:var(--ink);border-radius:99px;padding:8px 14px;font:700 13px 'DM Sans',sans-serif;cursor:pointer}
+#toast{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:14px;font-weight:700;font-size:14px;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;z-index:9}
+.note{font-size:12px;color:var(--mute);text-align:center;margin:10px 0}
+.err{color:var(--err);font-size:14px;margin:-4px 0 8px}
+nav{display:flex;border-top:1px solid var(--line);background:var(--surf)}
+nav button{flex:1;border:0;background:none;color:var(--mute);padding:10px 4px 12px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button span{font-size:20px}
+nav button.on{color:var(--brand)}
+@media(prefers-reduced-motion:no-preference){.big-ok{animation:pop .4s ease-out}@keyframes pop{from{transform:scale(.4);opacity:0}}}
+</style>
+</head>
+<body>
+<div id="app">
+<header><div class="logo">zuri<i></i></div><div id="hdr"></div></header>
+<main id="main"></main>
+<nav id="nav"></nav>
+</div>
+<script>
+var SYM={GBP:'£',USD:'$',EUR:'€'};
+var DEST={
+NG:{n:'Nigeria',c:'NGN',f:'🇳🇬',mm:'Opay or Palmpay',r:{GBP:2050,USD:1550,EUR:1700}},
+KE:{n:'Kenya',c:'KES',f:'🇰🇪',mm:'M-Pesa',r:{GBP:168,USD:129,EUR:140}},
+GH:{n:'Ghana',c:'GHS',f:'🇬🇭',mm:'MTN MoMo',r:{GBP:19.2,USD:14.6,EUR:16}},
+UG:{n:'Uganda',c:'UGX',f:'🇺🇬',mm:'MTN or Airtel Money',r:{GBP:4800,USD:3650,EUR:4000}},
+TZ:{n:'Tanzania',c:'TZS',f:'🇹🇿',mm:'M-Pesa or Tigo Pesa',r:{GBP:3400,USD:2600,EUR:2850}},
+RW:{n:'Rwanda',c:'RWF',f:'🇷🇼',mm:'MTN MoMo',r:{GBP:1750,USD:1350,EUR:1470}},
+SN:{n:'Senegal',c:'XOF',f:'🇸🇳',mm:'Orange Money or Wave',r:{GBP:790,USD:605,EUR:656}},
+ET:{n:'Ethiopia',c:'ETB',f:'🇪🇹',mm:'Telebirr',r:{GBP:165,USD:125,EUR:135}}};
+var BASE={};Object.keys(DEST).forEach(function(k){BASE[k]=JSON.parse(JSON.stringify(DEST[k].r))});
+var S={tab:'send',step:'amount',from:'GBP',to:'KE',amt:100,rid:null,adding:false,
+recips:[{id:1,name:'Amina Wanjiku',cc:'KE',method:'mobile',acct:'+254 712 345 678'},{id:2,name:'Kwame Mensah',cc:'GH',method:'bank',acct:'GCB Bank · 1234567890'},{id:3,name:'Chidi Okafor',cc:'NG',method:'bank',acct:'GTBank · 0123456789'}],
+txs:[],last:null,kyc:false,alerts:[]};
+try{var sv=JSON.parse(localStorage.getItem('zuri-v1')||'null');if(sv){S.recips=sv.recips||S.recips;S.txs=sv.txs||[];S.kyc=!!sv.kyc;S.alerts=sv.alerts||[];S.txs.forEach(function(t){t.p=3;t.done=true})}}catch(e){}
+function save(){try{localStorage.setItem('zuri-v1',JSON.stringify({recips:S.recips,txs:S.txs,kyc:S.kyc,alerts:S.alerts}))}catch(e){}}
+function $(i){return document.getElementById(i)}
+function fmt(n,d){return Number(n).toLocaleString('en-GB',{minimumFractionDigits:d||0,maximumFractionDigits:d||0})}
+function calc(){var a=Math.max(0,+S.amt||0),fee=a?Math.max(.99,a*.005):0,r=DEST[S.to].r[S.from];return{a:a,fee:fee,rate:r,get:a*r,tot:a+fee}}
+function ini(n){return n.split(' ').map(function(w){return w[0]}).slice(0,2).join('').toUpperCase()}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+function brk(){var c=calc(),s=SYM[S.from],d=DEST[S.to];
+return '<div><span>Exchange rate</span><span>1 '+S.from+' = '+fmt(c.rate,c.rate<100?2:0)+' '+d.c+'</span></div>'+
+'<div><span>Transfer fee</span><span>'+s+fmt(c.fee,2)+'</span></div>'+
+'<div><span>Arrives</span><span>Within minutes</span></div>'+
+'<div class="tot"><span>Total to pay</span><span>'+s+fmt(c.tot,2)+'</span></div>'}
+function upd(){var c=calc(),d=DEST[S.to];$('out').textContent=fmt(c.get,0);$('brk').innerHTML=brk();$('go').disabled=c.a<1||c.a>5000;
+$('lim').textContent=c.a>5000?'Limit is '+SYM[S.from]+'5,000 per transfer.':'';alUpd()}
+
+function vAmount(){var d=DEST[S.to],o='';
+Object.keys(DEST).forEach(function(k){o+='<option value="'+k+'"'+(k==S.to?' selected':'')+'>'+DEST[k].f+' '+DEST[k].c+'</option>'});
+var f=Object.keys(SYM).map(function(k){return '<option'+(k==S.from?' selected':'')+'>'+k+'</option>'}).join('');
+return '<h1>Send money home, fee-light.</h1>'+recents()+
+'<div class="card"><label for="amt">You send</label><div class="row"><input id="amt" type="number" inputmode="decimal" min="0" value="'+S.amt+'" aria-label="Amount to send"><select id="from" aria-label="Currency you send">'+f+'</select></div></div>'+
+'<div class="card hero"><div class="lbl">They receive in '+d.n+'</div><div class="row"><div class="out" id="out"></div><select id="to" aria-label="Destination">'+o+'</select></div></div>'+
+'<div class="err" id="lim"></div><div class="card brk" id="brk"></div>'+
+'<div class="card"><h2>Rate alert</h2><label for="tg" id="tgl"></label><div class="row"><input id="tg" type="number" step="any" style="flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:10px" aria-label="Target rate"><button class="sb" data-a="alert">Alert me</button></div><div id="al"></div></div>'+'<span class="tag">No hidden markup on the rate</span>'+
+'<button class="btn" id="go" data-a="toRec">Continue</button>'+
+'<p class="note">Demo app with illustrative rates. No real money moves.</p>'}
+
+function recents(){var l=S.txs.filter(function(t){return t.rid&&S.recips.some(function(r){return r.id==t.rid})}).slice(0,3);if(!l.length)return '';
+return '<div class="chips">'+l.map(function(t){return '<button class="chip" data-a="again2" data-i="'+S.txs.indexOf(t)+'">↻ '+esc(t.name.split(' ')[0])+' · '+t.sym+fmt(t.amt,0)+'</button>'}).join('')+'</div>'}
+function alUpd(){var r=DEST[S.to].r[S.from],t=$('tg');if(!t)return;var dp=r<100?2:0;
+$('tgl').textContent='Notify me when 1 '+S.from+' buys at least this many '+DEST[S.to].c+' (now '+fmt(r,dp)+')';
+if(t.dataset.k!=S.from+S.to){t.dataset.k=S.from+S.to;t.value=+(r*1.01).toFixed(dp)}
+$('al').innerHTML=S.alerts.map(function(a,i){return '<div class="tx"><span>1 '+a.from+' ≥ '+a.t+' '+DEST[a.to].c+'</span><button class="back" data-a="delAl" data-i="'+i+'">Remove</button></div>'}).join('')}
+function toast(m){var t=$('toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','status');document.body.appendChild(t)}t.textContent=m;t.style.opacity=1;clearTimeout(toast.h);toast.h=setTimeout(function(){t.style.opacity=0},4500)}
+setInterval(function(){var lk=S.tab=='send'&&(S.step=='review'||S.step=='kyc');if(!lk)Object.keys(DEST).forEach(function(k){Object.keys(SYM).forEach(function(c){var b=BASE[k][c],r=DEST[k].r[c]*(1+(Math.random()-.5)*.008);DEST[k].r[c]=Math.min(b*1.03,Math.max(b*.97,r))})});
+S.alerts=S.alerts.filter(function(a){var r=DEST[a.to].r[a.from];if(r>=a.t){toast('Rate alert: 1 '+a.from+' now buys '+fmt(r,r<100?2:0)+' '+DEST[a.to].c);return false}return true});save();
+if(S.tab=='send'&&S.step=='amount'&&$('out'))upd()},5000);
+function vKyc(){return '<h1>Verify your identity</h1><p style="color:var(--mute);margin:-8px 0 14px">Required once before your first transfer. Takes about a minute.</p><div class="card f"><label for="kn">Full name (as on your ID)</label><input id="kn" autocomplete="name"><label for="kd">Date of birth</label><input id="kd" type="date"><label for="kt">ID type</label><select id="kt" style="max-width:none;width:100%;margin-bottom:10px"><option>Passport</option><option>Driving licence</option><option>National ID card</option></select><label for="ki">ID number</label><input id="ki" autocomplete="off"><label for="kp">Photo of your ID</label><input id="kp" type="file" accept="image/*"><label style="display:flex;gap:8px;align-items:flex-start;color:var(--ink)"><input id="kc" type="checkbox" style="width:auto;margin:3px 0 0"> I confirm these details are mine and accept the terms.</label><div class="err" id="ke"></div><button class="btn" id="kb" data-a="kyc">Verify and continue</button></div><p class="note">Demo only. Nothing is uploaded or stored.</p>'}
+function vRec(){var d=DEST[S.to],list=S.recips.filter(function(r){return r.cc==S.to}),h='<h1>Who gets it?</h1>';
+if(!list.length&&!S.adding)h+='<div class="empty">No recipients in '+d.n+' yet. Add one to continue.</div>';
+list.forEach(function(r){h+='<button class="rec'+(S.rid==r.id?' sel':'')+'" data-a="pick" data-id="'+r.id+'"><div class="av">'+ini(r.name)+'</div><div><b>'+esc(r.name)+'</b><small>'+(r.method=='mobile'?'Mobile money':'Bank account')+' · '+esc(r.acct)+'</small></div></button>'});
+if(S.adding){h+='<div class="card f"><h2>New recipient in '+d.n+'</h2><label for="rn">Full name</label><input id="rn" autocomplete="off"><div class="seg"><button data-a="meth" data-m="mobile" class="on" id="m1">Mobile money</button><button data-a="meth" data-m="bank" id="m2">Bank account</button></div><label for="ra" id="ral">Mobile number ('+d.mm+')</label><input id="ra" autocomplete="off"><div class="err" id="re"></div><button class="btn" data-a="saveRec">Save recipient</button></div>'}
+else h+='<button class="btn alt" data-a="add">+ Add new recipient</button>';
+h+='<button class="btn" data-a="toReview"'+(S.rid?'':' disabled')+'>Review transfer</button>';return h}
+
+function vReview(){var c=calc(),d=DEST[S.to],r=S.recips.filter(function(x){return x.id==S.rid})[0],s=SYM[S.from];
+return '<h1>Check and send</h1><div class="card"><div class="row"><div class="av">'+ini(r.name)+'</div><div><b>'+esc(r.name)+'</b><small>'+d.f+' '+d.n+' · '+esc(r.acct)+'</small></div></div></div>'+
+'<div class="card hero"><div class="lbl">'+esc(r.name.split(' ')[0])+' receives</div><div class="out">'+fmt(c.get,0)+' '+d.c+'</div></div>'+
+'<div class="card brk"><div><span>You send</span><span>'+s+fmt(c.a,2)+'</span></div>'+brk()+'</div>'+
+'<button class="btn" data-a="send">Send '+s+fmt(c.tot,2)+'</button><button class="back" data-a="toRec">Change recipient</button>'}
+
+var STEPS=['Payment received','Converting to local currency','Sending to recipient','Delivered'];
+function vDone(){var t=S.last,h='<div class="big-ok" aria-hidden="true">✓</div><h1 style="text-align:center;margin-bottom:6px">'+(t.done?'Money delivered':'Money is on its way')+'</h1><p style="text-align:center;color:var(--mute)">'+esc(t.name)+' gets '+fmt(t.get,0)+' '+t.cur+'</p><div class="card" style="margin-top:16px"><ul class="tl" aria-live="polite">';
+STEPS.forEach(function(x,i){h+='<li class="'+(i<=t.p?'on':'')+'"><b>'+(i<=t.p?'✓':'')+'</b>'+x+'</li>'});
+return h+'</ul><div class="brk"><div><span>Reference</span><span>'+t.ref+'</span></div></div></div><button class="btn" data-a="again">Send another</button><button class="btn alt" data-a="goAct">View activity</button>'}
+
+function vAct(){var h='<h1>Activity</h1>';if(!S.txs.length)return h+'<div class="empty">No transfers yet. Your sent money will show up here.</div>';
+h+='<div class="card">';S.txs.forEach(function(t,i){h+='<div class="tx"><div><b>'+esc(t.name)+'</b><small>'+t.date+' · '+t.ref+'</small></div><div style="text-align:right"><b>'+t.sym+fmt(t.tot,2)+'</b><small class="st'+(t.p>=3?'':' p')+'">'+(t.p>=3?'Delivered':'In progress')+'</small>'+(t.rid&&S.recips.some(function(r){return r.id==t.rid})?'<button class="back" style="padding:2px 0;display:block;margin-left:auto" data-a="again2" data-i="'+i+'">↻ Send again</button>':'')+'</div></div>'});return h+'</div>'}
+
+function vPeople(){var h='<h1>Recipients</h1><div class="card">';
+if(!S.recips.length)h+='<div class="empty">No saved recipients.</div>';
+S.recips.forEach(function(r){h+='<div class="tx"><div class="row"><div class="av">'+ini(r.name)+'</div><div><b>'+esc(r.name)+'</b><small>'+DEST[r.cc].f+' '+esc(r.acct)+'</small></div></div><button class="back" data-a="del" data-id="'+r.id+'" aria-label="Remove '+esc(r.name)+'">Remove</button></div>'});
+return h+'</div>'}
+
+function render(){var m=$('main'),h='';
+$('hdr').innerHTML=((S.tab=='send'&&(S.step=='rec'||S.step=='review'||S.step=='kyc'))?'<button class="back" data-a="back">‹ Back</button>':'<span></span>')+(S.kyc?'<span class="tag" style="background:var(--ok);color:#fff">✓ Verified</span>':'');
+if(S.tab=='send')h=S.step=='amount'?vAmount():S.step=='rec'?vRec():S.step=='review'?vReview():S.step=='kyc'?vKyc():vDone();
+else h=S.tab=='act'?vAct():vPeople();
+m.innerHTML=h;m.scrollTop=0;
+if(S.tab=='send'&&S.step=='amount')upd();
+var tabs=[['send','↗','Send'],['act','☰','Activity'],['ppl','☺','Recipients']];
+$('nav').innerHTML=tabs.map(function(t){return '<button data-a="tab" data-t="'+t[0]+'" class="'+(S.tab==t[0]?'on':'')+'"><span aria-hidden="true">'+t[1]+'</span>'+t[2]+'</button>'}).join('')}
+
+var meth='mobile';
+document.addEventListener('input',function(e){if(e.target.id=='amt'){S.amt=e.target.value;upd()}});
+document.addEventListener('change',function(e){if(e.target.id=='from'){S.from=e.target.value;upd()}
+if(e.target.id=='to'){S.to=e.target.value;S.rid=null;render()}});
+document.addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a;
+if(a=='tab'){S.tab=b.dataset.t;render()}
+else if(a=='toRec'){if(calc().a<1||calc().a>5000)return;S.step='rec';S.adding=false;render()}
+else if(a=='back'){S.step=(S.step=='review'||S.step=='kyc')?'rec':'amount';render()}
+else if(a=='pick'){S.rid=+b.dataset.id;render()}
+else if(a=='add'){S.adding=true;meth='mobile';render()}
+else if(a=='meth'){meth=b.dataset.m;$('m1').className=meth=='mobile'?'on':'';$('m2').className=meth=='bank'?'on':'';$('ral').textContent=meth=='mobile'?'Mobile number ('+DEST[S.to].mm+')':'Bank name and account number'}
+else if(a=='saveRec'){var n=$('rn').value.trim(),ac=$('ra').value.trim();
+var bad=meth=='mobile'?(ac.replace(/\D/g,'').length<8||/[^\d\s+()-]/.test(ac)):ac.length<5;if(n.length<2||bad){$('re').textContent=meth=='mobile'?'Enter the full name and a valid mobile number (digits only).':'Enter the full name and a valid bank account.';return}
+var id=Date.now();S.recips.push({id:id,name:n,cc:S.to,method:meth,acct:ac});S.rid=id;S.adding=false;save();render()}
+else if(a=='toReview'){if(S.rid){S.step=S.kyc?'review':'kyc';render()}}
+else if(a=='alert'){var tv=parseFloat($('tg').value);if(!(tv>0))return;S.alerts.push({from:S.from,to:S.to,t:tv});save();toast('Alert set: 1 '+S.from+' ≥ '+tv+' '+DEST[S.to].c);alUpd()}
+else if(a=='delAl'){S.alerts.splice(+b.dataset.i,1);save();alUpd()}
+else if(a=='again2'){var o=S.txs[+b.dataset.i];S.from=o.from;S.to=o.cc;S.amt=o.amt;S.rid=o.rid;S.tab='send';S.step=S.kyc?'review':'kyc';render()}
+else if(a=='kyc'){var d=$('kd').value,lim=new Date(),er='';lim.setFullYear(lim.getFullYear()-18);
+if($('kn').value.trim().length<2)er='Enter your full name.';else if(!d||new Date(d)>lim)er='You must be 18 or older. Check your date of birth.';else if($('ki').value.trim().length<5)er='Enter your ID number.';else if(!$('kp').files.length)er='Add a photo of your ID.';else if(!$('kc').checked)er='Confirm the details and accept the terms.';
+$('ke').textContent=er;if(er)return;$('kb').disabled=true;$('kb').textContent='Verifying…';
+setTimeout(function(){S.kyc=true;save();toast('Identity verified');if(S.step=='kyc'){S.step=S.rid?'review':'amount'}render()},1600)}
+else if(a=='send'){var c=calc(),r=S.recips.filter(function(x){return x.id==S.rid})[0];
+var t={rid:S.rid,cc:S.to,from:S.from,amt:c.a,name:r.name,cur:DEST[S.to].c,get:c.get,tot:c.tot,sym:SYM[S.from],p:0,done:false,ref:'ZR'+Math.random().toString(36).slice(2,8).toUpperCase(),date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short'})};
+S.txs.unshift(t);S.last=t;S.step='done';save();render();
+var iv=setInterval(function(){t.p++;if(t.p>=3){t.done=true;clearInterval(iv)}save();if(S.tab=='send'&&S.step=='done'&&S.last===t)render()},1100)}
+else if(a=='again'){S.step='amount';S.rid=null;render()}
+else if(a=='goAct'){S.tab='act';S.step='amount';render()}
+else if(a=='del'){var id2=+b.dataset.id;S.recips=S.recips.filter(function(x){return x.id!=id2});if(S.rid==id2)S.rid=null;save();render()}});
+render();
+</script>
+<script src="/live.js"></script></body>
+</html>
